@@ -7,8 +7,9 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 if [ -f "$SCRIPT_DIR/.env" ]; then
-    # Filtert Kommentare und exportiert die Variablen sauber
-    export $(grep -v '^#' "$SCRIPT_DIR/.env" | xargs)
+    set -a            # Aktiviert den automatischen Export für alle geladenen Variablen
+    source "$SCRIPT_DIR/.env"
+    set +a            # Deaktiviert den automatischen Export wieder
 else
     echo "[$(date)] FEHLER: .env Datei wurde nicht gefunden!" >&2
     exit 1
